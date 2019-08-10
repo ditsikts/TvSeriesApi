@@ -33,4 +33,28 @@ public class TvSeriesDaoImpl implements TvSeriesDao {
 		
 	}
 
+	@Override
+	public TvSeries findById(int id) {
+		
+		Session session = entityManager.unwrap(Session.class);
+		TvSeries tvSeries = session.get(TvSeries.class, id);
+		return tvSeries;
+	}
+
+	@Override
+	public void save(TvSeries tvSeries) {
+		Session session = entityManager.unwrap(Session.class);
+		session.saveOrUpdate(tvSeries);
+		
+	}
+
+	@Override
+	public void deleteById(int id) {
+		Session session = entityManager.unwrap(Session.class);
+		Query query = session.createQuery("delete from TvSeries where id=:tvSeriesId");
+		query.setParameter("tvSeriesId", id);
+		query.executeUpdate();
+		
+	}
+
 }

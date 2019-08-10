@@ -25,4 +25,25 @@ public class TvSeriesServiceImpl implements TvSeriesService {
 		return tvSeriesDao.findAll();
 	}
 
+	@Override
+	@Transactional
+	public TvSeries findById(int id) {
+
+		return tvSeriesDao.findById(id);
+	}
+
+	@Override
+	@Transactional
+	public void save(TvSeries tvSeries) {
+		tvSeriesDao.save(tvSeries);
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteById(int id) {
+		tvSeriesDao.deleteById(id);
+		
+	}
+
 }
