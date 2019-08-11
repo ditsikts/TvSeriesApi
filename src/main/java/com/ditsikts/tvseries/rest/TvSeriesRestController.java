@@ -3,7 +3,6 @@ package com.ditsikts.tvseries.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,7 @@ public class TvSeriesRestController {
 		this.tvSeriesService = tvSeriesService;
 		
 	}
-	@CrossOrigin(origins = "http://localhost:3000")
+	
 	@GetMapping("/tvseries")
 	public List<TvSeries> findAll(){
 		return tvSeriesService.findAll();
@@ -57,7 +56,7 @@ public class TvSeriesRestController {
 		tvSeriesService.save(tvSeries);
 		return tvSeries;
 	}
-	
+
 	@PostMapping("/tvseries")
 	public TvSeries addTvSeries(@RequestBody TvSeries tvSeries) {
 		tvSeriesService.save(tvSeries);
