@@ -1,10 +1,13 @@
 package com.ditsikts.tvseries.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,22 +24,16 @@ public class TvSeries {
 	
 	@Column(name="category")
 	private String category;
+
+	@Column(name="status")
+	private String status;
 	
 	@Column(name="image_url")
 	private String imageUrl;
 	
-	public TvSeries() {
-		super();
-	}
-
-	public TvSeries(Long id, String title, String category, String imageUrl) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.category = category;
-		this.imageUrl = imageUrl;
-	}
-
+	@OneToMany(mappedBy = "tvSeries")
+    private List<Season> seasons;
+	
 	public Long getId() {
 		return id;
 	}
@@ -61,12 +58,28 @@ public class TvSeries {
 		this.category = category;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getImageUrl() {
 		return imageUrl;
 	}
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+	
+	public List<Season> getSeasons() {
+		return seasons;
+	}
+
+	public void setSeasons(List<Season> seasons) {
+		this.seasons = seasons;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class TvSeriesDaoImpl implements TvSeriesDao {
 		Query<TvSeries> query = session.createQuery("from TvSeries", TvSeries.class);
 		
 		List<TvSeries> tvSeries = query.getResultList();
-		
+
 		return tvSeries;
 		
 	}
