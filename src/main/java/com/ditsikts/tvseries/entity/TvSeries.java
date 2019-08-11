@@ -14,7 +14,7 @@ public class TvSeries {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="tv_series_id")
-	private Integer id;
+	private Long id;
 	
 	@Column(name="title")
 	private String title;
@@ -29,7 +29,7 @@ public class TvSeries {
 		super();
 	}
 
-	public TvSeries(Integer id, String title, String category, String imageUrl) {
+	public TvSeries(Long id, String title, String category, String imageUrl) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -37,11 +37,11 @@ public class TvSeries {
 		this.imageUrl = imageUrl;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
