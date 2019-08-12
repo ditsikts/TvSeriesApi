@@ -1,14 +1,12 @@
 package com.ditsikts.tvseries.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
 import com.ditsikts.tvseries.entity.Category;
 import com.ditsikts.tvseries.service.CategoryService;
+import com.fasterxml.jackson.databind.util.StdConverter;
 
-@Component
-public class CategoryFromFormToEntity implements Converter<String, Category> {
+public class StringToCategoryConverter extends StdConverter<String, Category> {
 
     @Autowired
     CategoryService categoryService;

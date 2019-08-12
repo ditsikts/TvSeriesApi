@@ -15,6 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.ditsikts.tvseries.converter.StringToCategoryConverter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 @Entity
 @Table(name="tv_series")
 public class TvSeries {
@@ -40,6 +43,7 @@ public class TvSeries {
     private List<Season> seasons;
 	
     @NotEmpty
+    @JsonDeserialize(converter = StringToCategoryConverter.class)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tvseries_category",
             joinColumns = {
