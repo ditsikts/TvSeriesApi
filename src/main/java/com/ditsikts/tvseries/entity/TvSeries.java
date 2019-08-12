@@ -4,11 +4,16 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="tv_series")
@@ -34,6 +39,15 @@ public class TvSeries {
 	@OneToMany(mappedBy = "tvSeries")
     private List<Season> seasons;
 	
+    @NotEmpty
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tvseries_category",
+            joinColumns = {
+                @JoinColumn(name = "tv_series_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "category_id")})
+    private List<Category> categories;
+	
 	public Long getId() {
 		return id;
 	}
@@ -48,14 +62,6 @@ public class TvSeries {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
 	}
 
 	public String getStatus() {
@@ -80,6 +86,14 @@ public class TvSeries {
 
 	public void setSeasons(List<Season> seasons) {
 		this.seasons = seasons;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	@Override

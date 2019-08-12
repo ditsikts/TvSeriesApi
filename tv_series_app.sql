@@ -3,7 +3,6 @@ CREATE SCHEMA `tvseries_app` DEFAULT CHARACTER SET utf8mb4 ;
 CREATE TABLE `tvseries_app`.`tv_series` (
   `tv_series_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL,
-  `category` VARCHAR(45) NULL,
   `status` VARCHAR(45) NULL,
   `image_url` VARCHAR(1000) NULL,
   PRIMARY KEY (`tv_series_id`));
@@ -16,18 +15,70 @@ CREATE TABLE `tvseries_app`.`seasons` (
   `tv_series_id` BIGINT(20) NOT NULL,
   PRIMARY KEY (`season_id`),
   INDEX `tv_series_id_idx` (`tv_series_id` ASC) VISIBLE,
-  CONSTRAINT `tv_series_id`
+  CONSTRAINT `fk_seasons_tvseries`
     FOREIGN KEY (`tv_series_id`)
     REFERENCES `tvseries_app`.`tv_series` (`tv_series_id`) ON DELETE NO ACTION ON UPDATE NO ACTION);
 
-INSERT INTO `tvseries_app`.`tv_series` (`title`, `category`, `status`) VALUES ('Breaking Bad', 'Crime', 'Ended');
-INSERT INTO `tvseries_app`.`tv_series` (`title`, `category`, `status`) VALUES ('Altered Carbon', 'Sci-Fi', 'Ongoing');
-INSERT INTO `tvseries_app`.`tv_series` (`title`, `category`, `status`) VALUES ('Game of Thrones', 'Action', 'Ended');
-INSERT INTO `tvseries_app`.`tv_series` (`title`, `category`, `status`) VALUES ('Stranger Things', 'Horror', 'Ended');
-INSERT INTO `tvseries_app`.`tv_series` (`title`, `category`, `status`) VALUES ('Sherlock', 'Crime', 'Ended');
-INSERT INTO `tvseries_app`.`tv_series` (`title`, `category`, `status`) VALUES ('Dexter', 'Crime', 'Ended');
-INSERT INTO `tvseries_app`.`tv_series` (`title`, `category`, `status`) VALUES ('Fargo', 'Crime', 'Ended');
-INSERT INTO `tvseries_app`.`tv_series` (`title`, `category`, `status`) VALUES ('FlashForward', 'Sci-Fi', 'Cancelled');
+CREATE TABLE `tvseries_app`.`categories` (
+  `category_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `category` VARCHAR(45) NOT NULL UNIQUE,
+  PRIMARY KEY (`category_id`));
+
+CREATE TABLE `tvseries_app`.`tvseries_category` (
+  `tv_series_id` BIGINT(20) NOT NULL,
+  `category_id` BIGINT(20) NOT NULL,
+  UNIQUE (`tv_series_id`, `category_id`),
+  INDEX `category_id_idx` (`category_id` ASC) VISIBLE,
+  CONSTRAINT `fk_tvseriescategory_tvseries` FOREIGN KEY (`tv_series_id`) REFERENCES `tvseries_app`.`tv_series` (`tv_series_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tvseriescategory_category` FOREIGN KEY (`category_id`) REFERENCES `tvseries_app`.`categories` (`category_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Crime');
+INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Sci-Fi');
+INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Action');
+INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Horror');
+INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Drama');
+INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Thriller');
+INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Adventure');
+INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Fantasy');
+INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Mystery');
+
+INSERT INTO `tvseries_app`.`tv_series` (`title`, `status`) VALUES ('Breaking Bad', 'Ended');
+INSERT INTO `tvseries_app`.`tv_series` (`title`, `status`) VALUES ('Altered Carbon', 'Ongoing');
+INSERT INTO `tvseries_app`.`tv_series` (`title`, `status`) VALUES ('Game of Thrones', 'Ended');
+INSERT INTO `tvseries_app`.`tv_series` (`title`, `status`) VALUES ('Stranger Things', 'Ended');
+INSERT INTO `tvseries_app`.`tv_series` (`title`, `status`) VALUES ('Sherlock', 'Ended');
+INSERT INTO `tvseries_app`.`tv_series` (`title`, `status`) VALUES ('Dexter', 'Ended');
+INSERT INTO `tvseries_app`.`tv_series` (`title`, `status`) VALUES ('Fargo', 'Ended');
+INSERT INTO `tvseries_app`.`tv_series` (`title`, `status`) VALUES ('FlashForward', 'Cancelled');
+
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('1', '1');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('1', '5');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('1', '6');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('2', '2');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('2', '3');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('2', '5');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('3', '3');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('3', '5');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('3', '7');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('4', '4');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('4', '5');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('4', '8');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('5', '1');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('5', '5');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('5', '9');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('6', '1');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('6', '5');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('6', '9');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('7', '1');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('7', '5');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('7', '6');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('8', '2');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('8', '5');
+INSERT INTO `tvseries_app`.`tvseries_category` (`tv_series_id`, `category_id`) VALUES ('8', '9');
 
 INSERT INTO `tvseries_app`.`seasons` (`season_number`, `date_aired`, `episodes`, `tv_series_id`) VALUES ('Season 1', '2008-01-20', '7', '1');
 INSERT INTO `tvseries_app`.`seasons` (`season_number`, `date_aired`, `episodes`, `tv_series_id`) VALUES ('Season 2', '2009-03-08', '13', '1');
