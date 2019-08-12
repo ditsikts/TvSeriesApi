@@ -33,7 +33,7 @@ public class TvSeriesRestController {
 	}
 	
 	@GetMapping("/tvseries/{id}")
-	public TvSeries getTvSeries(@PathVariable int id) {
+	public TvSeries getTvSeries(@PathVariable Long id) {
 		TvSeries tvSeries = tvSeriesService.findById(id);
 		if(tvSeries == null) {
 			throw new RuntimeException("TvSeries id not found "+id);
@@ -42,7 +42,7 @@ public class TvSeriesRestController {
 	}
 	
 	@DeleteMapping("/tvseries/{id}")
-	public String deleteTvSeries(@PathVariable int id) {
+	public String deleteTvSeries(@PathVariable Long id) {
 		TvSeries tvSeries = tvSeriesService.findById(id);
 		if(tvSeries == null) {
 			throw new RuntimeException("TvSeries id not found "+id);

@@ -4,56 +4,54 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.ditsikts.tvseries.entity.TvSeries;
+import com.ditsikts.tvseries.entity.Category;
 
 @Repository
-public class TvSeriesDaoImpl implements TvSeriesDao {
+public class CategoryDaoImpl implements CategoryDao {
 
 	private EntityManager entityManager;
 	
 	@Autowired
-	public TvSeriesDaoImpl(EntityManager entityManager) {
+	public CategoryDaoImpl(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
 	
 	@Override
-	public List<TvSeries> findAll() {
+	public List<Category> findAll() {
 		
 		Session session = entityManager.unwrap(Session.class);
-		Query<TvSeries> query = session.createQuery("from TvSeries", TvSeries.class);
+		Query<Category> query = session.createQuery("from Category", Category.class);
 		
-		List<TvSeries> tvSeries = query.getResultList();
+		List<Category> categories = query.getResultList();
 
-		return tvSeries;
+		return categories;
 		
 	}
 
 	@Override
-	public TvSeries findById(Long id) {
-		
+	public Category findById(Long id) {
+
 		Session session = entityManager.unwrap(Session.class);
-		TvSeries tvSeries = session.get(TvSeries.class, id);
-		return tvSeries;
+		Category category = session.get(Category.class, id);
+		return category;
 	}
 
 	@Override
-	public void save(TvSeries tvSeries) {
+	public void save(Category category) {
 		Session session = entityManager.unwrap(Session.class);
-		session.saveOrUpdate(tvSeries);
-		
+		session.saveOrUpdate(category);
 	}
 
 	@Override
 	public void deleteById(Long id) {
 		Session session = entityManager.unwrap(Session.class);
-		Query query = session.createQuery("delete from TvSeries where id=:tvSeriesId");
-		query.setParameter("tvSeriesId", id);
+		Query query = session.createQuery("delete from Category where id=:categoryId");
+		query.setParameter("categoryId", id);
 		query.executeUpdate();
 		
 	}

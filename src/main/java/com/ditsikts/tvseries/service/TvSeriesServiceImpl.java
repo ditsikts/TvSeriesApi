@@ -27,7 +27,7 @@ public class TvSeriesServiceImpl implements TvSeriesService {
 
 	@Override
 	@Transactional
-	public TvSeries findById(int id) {
+	public TvSeries findById(Long id) {
 
 		return tvSeriesDao.findById(id);
 	}
@@ -41,7 +41,7 @@ public class TvSeriesServiceImpl implements TvSeriesService {
 
 	@Override
 	@Transactional
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		tvSeriesDao.deleteById(id);
 		
 	}
