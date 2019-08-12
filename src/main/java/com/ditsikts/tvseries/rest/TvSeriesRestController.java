@@ -24,7 +24,6 @@ public class TvSeriesRestController {
 	@Autowired
 	public TvSeriesRestController(TvSeriesService tvSeriesService) {
 		this.tvSeriesService = tvSeriesService;
-		
 	}
 	
 	@GetMapping("/tvseries")
@@ -59,6 +58,7 @@ public class TvSeriesRestController {
 
 	@PostMapping("/tvseries")
 	public TvSeries addTvSeries(@RequestBody TvSeries tvSeries) {
+		System.out.println(tvSeries);
 		tvSeriesService.save(tvSeries);
 		return tvSeries;
 	}

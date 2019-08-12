@@ -20,6 +20,7 @@ public class TvseriesApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api/tvseries").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/api/categories").allowedOrigins("http://localhost:3000");
 			}
 		};
 	}
