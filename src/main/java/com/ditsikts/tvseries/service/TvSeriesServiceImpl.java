@@ -26,6 +26,11 @@ public class TvSeriesServiceImpl implements TvSeriesService {
 	}
 
 	@Override
+	public List<TvSeries> findByTitle(String search) {
+		return tvSeriesDao.findByTitle(search);
+	}
+
+	@Override
 	@Transactional
 	public TvSeries findById(Long id) {
 

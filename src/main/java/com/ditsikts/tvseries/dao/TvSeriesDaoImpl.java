@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,6 +33,16 @@ public class TvSeriesDaoImpl implements TvSeriesDao {
 		return tvSeries;
 		
 	}
+	
+	@Override
+	public List<TvSeries> findByTitle(String search) {
+		Session session = entityManager.unwrap(Session.class);
+		Query<TvSeries> query = session.createQuery("from TvSeries where lower(title) like lower(:search)", TvSeries.class);
+		query.setParameter("search", MatchMode.ANYWHERE.toMatchString(search));
+		List<TvSeries> tvSeries = query.getResultList();
+		
+		return tvSeries;
+	}
 
 	@Override
 	public TvSeries findById(Long id) {
@@ -57,5 +67,6 @@ public class TvSeriesDaoImpl implements TvSeriesDao {
 		query.executeUpdate();
 		
 	}
+
 
 }
