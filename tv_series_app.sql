@@ -14,7 +14,6 @@ CREATE TABLE `tvseries_app`.`seasons` (
   `episodes` INT(2) NULL,
   `tv_series_id` BIGINT(20) NOT NULL,
   PRIMARY KEY (`season_id`),
-  INDEX `tv_series_id_idx` (`tv_series_id` ASC) VISIBLE,
   CONSTRAINT `fk_seasons_tvseries`
     FOREIGN KEY (`tv_series_id`)
     REFERENCES `tvseries_app`.`tv_series` (`tv_series_id`) ON DELETE NO ACTION ON UPDATE NO ACTION);
@@ -28,7 +27,6 @@ CREATE TABLE `tvseries_app`.`tvseries_category` (
   `tv_series_id` BIGINT(20) NOT NULL,
   `category_id` BIGINT(20) NOT NULL,
   UNIQUE (`tv_series_id`, `category_id`),
-  INDEX `category_id_idx` (`category_id` ASC) VISIBLE,
   CONSTRAINT `fk_tvseriescategory_tvseries` FOREIGN KEY (`tv_series_id`) REFERENCES `tvseries_app`.`tv_series` (`tv_series_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
