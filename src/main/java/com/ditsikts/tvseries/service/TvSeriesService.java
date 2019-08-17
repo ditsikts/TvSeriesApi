@@ -8,6 +8,8 @@ public interface TvSeriesService {
 	
 	public List<TvSeries> findAll();
 
+	public List<TvSeries> findByTitle(String search);
+	
 	public TvSeries findById(Long id);
 	
 	public void save(TvSeries tvSeries);

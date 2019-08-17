@@ -31,11 +31,20 @@ public class TvSeriesRestController {
 		return tvSeriesService.findAll();
 	}
 	
-	@GetMapping("/tvseries/{id}")
-	public TvSeries getTvSeries(@PathVariable Long id) {
-		TvSeries tvSeries = tvSeriesService.findById(id);
+//	@GetMapping("/tvseries/{id}")
+//	public TvSeries getTvSeries(@PathVariable Long id) {
+//		TvSeries tvSeries = tvSeriesService.findById(id);
+//		if(tvSeries == null) {
+//			throw new RuntimeException("TvSeries id not found "+id);
+//		}
+//		return tvSeries;
+//	}
+	
+	@GetMapping("/tvseries/{search}")
+	public List<TvSeries> getTvSeriesByTitle(@PathVariable String search) {
+		List<TvSeries> tvSeries = tvSeriesService.findByTitle(search);
 		if(tvSeries == null) {
-			throw new RuntimeException("TvSeries id not found "+id);
+			throw new RuntimeException("TvSeries id not found "+search);
 		}
 		return tvSeries;
 	}
