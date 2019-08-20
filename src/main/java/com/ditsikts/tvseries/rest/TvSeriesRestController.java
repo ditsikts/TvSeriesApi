@@ -31,15 +31,6 @@ public class TvSeriesRestController {
 		return tvSeriesService.findAll();
 	}
 	
-//	@GetMapping("/tvseries/{id}")
-//	public TvSeries getTvSeries(@PathVariable Long id) {
-//		TvSeries tvSeries = tvSeriesService.findById(id);
-//		if(tvSeries == null) {
-//			throw new RuntimeException("TvSeries id not found "+id);
-//		}
-//		return tvSeries;
-//	}
-	
 	@GetMapping("/tvseries/{search}")
 	public List<TvSeries> getTvSeriesByTitle(@PathVariable String search) {
 		List<TvSeries> tvSeries = tvSeriesService.findByTitle(search);
@@ -67,7 +58,6 @@ public class TvSeriesRestController {
 
 	@PostMapping("/tvseries")
 	public TvSeries addTvSeries(@RequestBody TvSeries tvSeries) {
-		System.out.println(tvSeries);
 		tvSeriesService.save(tvSeries);
 		return tvSeries;
 	}
