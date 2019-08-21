@@ -16,7 +16,7 @@ CREATE TABLE `tvseries_app`.`seasons` (
   PRIMARY KEY (`season_id`),
   CONSTRAINT `fk_seasons_tvseries`
     FOREIGN KEY (`tv_series_id`)
-    REFERENCES `tvseries_app`.`tv_series` (`tv_series_id`) ON DELETE NO ACTION ON UPDATE NO ACTION);
+    REFERENCES `tvseries_app`.`tv_series` (`tv_series_id`) ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE `tvseries_app`.`categories` (
   `category_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -28,11 +28,9 @@ CREATE TABLE `tvseries_app`.`tvseries_category` (
   `category_id` BIGINT(20) NOT NULL,
   UNIQUE (`tv_series_id`, `category_id`),
   CONSTRAINT `fk_tvseriescategory_tvseries` FOREIGN KEY (`tv_series_id`) REFERENCES `tvseries_app`.`tv_series` (`tv_series_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_tvseriescategory_category` FOREIGN KEY (`category_id`) REFERENCES `tvseries_app`.`categories` (`category_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON DELETE CASCADE ON UPDATE CASCADE);
 
 INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Crime');
 INSERT INTO `tvseries_app`.`categories` (`category`) VALUES ('Sci-Fi');
