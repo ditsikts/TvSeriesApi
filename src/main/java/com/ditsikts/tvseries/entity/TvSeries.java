@@ -30,9 +30,6 @@ public class TvSeries {
 	@Column(name="title")
 	private String title;
 	
-	@Column(name="category")
-	private String category;
-
 	@Column(name="status")
 	private String status;
 	
@@ -101,7 +98,7 @@ public class TvSeries {
 
 	@Override
 	public String toString() {
-		return "TvSeries [id=" + id + ", title=" + title + ", category=" + category + ", imageUrl=" + imageUrl + "]";
+		return "TvSeries [id=" + id + ", title=" + title + ", imageUrl=" + imageUrl + "]";
 	}
 	
 	
