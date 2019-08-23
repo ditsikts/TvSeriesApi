@@ -1,13 +1,24 @@
 CREATE SCHEMA `tvseries_app` DEFAULT CHARACTER SET utf8mb4 ;
 
-CREATE TABLE `user` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tvseries_app`.`users` (
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `password` varchar(255) DEFAULT NULL,
   `user_name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `tvseries_app`.`user` (`id`, `password`, `user_name`) VALUES ('1', '$2a$04$KNLUwOWHVQZVpXyMBNc7JOzbLiBjb9Tk9bP7KNcPI12ICuvzXQQKG', 'admin');
+CREATE TABLE `tvseries_app`.`authorities` (
+  `authority_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` BIGINT(20) NOT NULL,
+  `authority` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`authority_id`),
+  CONSTRAINT `fk_authorities_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `tvseries_app`.`users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE);
+
+INSERT INTO `tvseries_app`.`users` (`password`, `user_name`) VALUES ('$2a$04$KNLUwOWHVQZVpXyMBNc7JOzbLiBjb9Tk9bP7KNcPI12ICuvzXQQKG', 'admin');
+
+INSERT INTO `tvseries_app`.`authorities` (`user_id`, `authority`) VALUES ('1', 'ADMIN');
 
 CREATE TABLE `tvseries_app`.`tv_series` (
   `tv_series_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
