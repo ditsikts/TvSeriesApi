@@ -1,15 +1,19 @@
 package com.ditsikts.tvseries.service;
 
-import com.ditsikts.tvseries.entity.User;
-import com.ditsikts.tvseries.entity.UserRepository;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import com.ditsikts.tvseries.entity.Authority;
+import com.ditsikts.tvseries.entity.User;
+import com.ditsikts.tvseries.entity.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -26,6 +30,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new UsernameNotFoundException("User: " + userName + " not found"));
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
-                Arrays.asList(new SimpleGrantedAuthority("user")));
+                getGrantedAuthorities(user));
     }
+    
+	private List<GrantedAuthority> getGrantedAuthorities(User user){
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		
+		for(Authority authority : user.getAuthorities()){
+//			logger.info("UserProfile : {}", userProfile);
+			authorities.add(new SimpleGrantedAuthority("ROLE_"+authority.getAuthority()));
+		}
+//		logger.info("authorities : {}", authorities);
+		return authorities;
+	}
 }

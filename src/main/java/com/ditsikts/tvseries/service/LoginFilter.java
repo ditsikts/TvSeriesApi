@@ -13,7 +13,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 
 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
@@ -32,8 +31,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userCredentials.getUserName(),
-                        userCredentials.getPassword(),
-                        Collections.emptyList()
+                        userCredentials.getPassword()
                 )
         );
     }
@@ -43,6 +41,6 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             HttpServletRequest req,
             HttpServletResponse res, FilterChain chain,
             Authentication auth) {
-        AuthenticationService.addJWTToken(res, auth.getName());
+        AuthenticationService.addJWTToken(res, auth);
     }
 }

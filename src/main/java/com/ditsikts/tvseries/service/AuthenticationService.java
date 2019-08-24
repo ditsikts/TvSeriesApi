@@ -1,14 +1,20 @@
 package com.ditsikts.tvseries.service;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 
-import static java.util.Collections.emptyList;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 public class AuthenticationService {
 
@@ -16,9 +22,16 @@ public class AuthenticationService {
     static final String SIGNINGKEY = "signingKey";
     static final String BEARER_PREFIX = "Bearer";
 
-    static public void addJWTToken(HttpServletResponse response, String username) {
-        String JwtToken = Jwts.builder().setSubject(username)
+    static public void addJWTToken(HttpServletResponse response, Authentication auth) {
+    	User user = ((User) auth.getPrincipal());
+    	var roles = user.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+    	
+        String JwtToken = Jwts.builder().setSubject(auth.getName())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
+                .claim("rol", roles)
                 .signWith(SignatureAlgorithm.HS512, SIGNINGKEY)
                 .compact();
         response.addHeader("Authorization", BEARER_PREFIX + " " + JwtToken);
@@ -28,14 +41,22 @@ public class AuthenticationService {
     static public Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if (token != null) {
-            String user = Jwts.parser()
-                    .setSigningKey(SIGNINGKEY)
-                    .parseClaimsJws(token.replace(BEARER_PREFIX, ""))
+        	
+        	var parsedToken = Jwts.parser()
+            .setSigningKey(SIGNINGKEY)
+            .parseClaimsJws(token.replace(BEARER_PREFIX, ""));
+        	
+        	var username = parsedToken
                     .getBody()
                     .getSubject();
 
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, emptyList());
+            var authorities = ((List<?>) parsedToken.getBody()
+                .get("rol")).stream()
+                .map(authority -> new SimpleGrantedAuthority((String) authority))
+                .collect(Collectors.toList());
+
+            if (username != null) {
+                return new UsernamePasswordAuthenticationToken(username, null, authorities);
             } else {
                 throw new RuntimeException("Authentication failed");
             }
