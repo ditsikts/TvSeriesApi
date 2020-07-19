@@ -13,7 +13,4 @@ public class TvseriesApplication {
 		SpringApplication.run(TvseriesApplication.class, args);
 	}
 
-
-
-
 }
