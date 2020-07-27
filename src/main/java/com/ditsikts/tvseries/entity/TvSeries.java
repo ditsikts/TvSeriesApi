@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import com.ditsikts.tvseries.converter.StringToCategoryConverter;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+//import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 @Table(name="tv_series")
